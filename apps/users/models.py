@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from .manager import CustomUserManager
+
 
 class User(AbstractUser):
     username = None
@@ -34,11 +36,14 @@ class User(AbstractUser):
         null=True,
     )
 
+    objects = CustomUserManager()
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
+
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
-        
+
     def __str__(self):
         return self.email
