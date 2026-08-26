@@ -36,7 +36,7 @@ class User(AbstractUser):
         null=True,
     )
 
-    objects = CustomUserManager()
+    objects = CustomUserManager()  # type: ignore
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
