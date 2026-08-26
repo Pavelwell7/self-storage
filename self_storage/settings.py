@@ -6,6 +6,7 @@ from environs import Env
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR / "apps"))
 
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 env = Env()
 env.read_env()
@@ -76,13 +77,11 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 ACCOUNT_EMAIL_VERIFICATION = "optional"  # TO DO: добавить в настройки 'mandatory'
 ACCOUNT_SESSION_REMEMBER = True
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
-
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
 AUTH_PASSWORD_VALIDATORS = [
     {
