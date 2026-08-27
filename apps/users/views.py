@@ -7,9 +7,13 @@ from .forms import UserProfileForm
 
 @login_required
 def profile_view(request):
-    user = request.user
 
-    has_rent = False  # TO DO добавить проверку аренды
+    user = request.user
+    orders = request.user.orders.select_related("box__warehouse").order_by(
+        "-start_date"
+    )
+
+    has_rent = orders.exists()
 
     if request.method == "POST":
         form = UserProfileForm(request.POST, request.FILES, instance=user)
@@ -23,4 +27,4 @@ def profile_view(request):
             field.widget.attrs["disabled"] = "disabled"
 
     template = "my-rent.html" if has_rent else "my-rent-empty.html"
-    return render(request, template, {"form": form, "user": user})
+    return render(request, template, {"form": form, "user": user, "orders": orders})
