@@ -3,13 +3,27 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from datetime import datetime
-from .models import Box, Order
+from .models import Box, Order, Warehouse
+from django.db.models import Count, Q, Min, Max
+
+
+def boxes_view(request):
+    warehouses = Warehouse.objects.annotate(
+        total_boxes=Count('boxes'),
+        free_boxes=Count('boxes', filter=Q(boxes__is_occupied=False)),
+        min_price=Min('boxes__price_per_month'),
+        max_height=Max('boxes__height')
+    ).prefetch_related('boxes')
+
+    context = {
+        'warehouses': warehouses,
+    }
+    return render(request, 'boxes.html', context)
+
 
 def index(request):
     return render(request, 'index.html')
 
-def boxes_view(request):
-  return render(request, 'boxes.html')
 
 def faq_view(request):
   return render(request, 'faq.html')
@@ -50,3 +64,4 @@ def order_create(request, box_id):
         'start_date': today.isoformat(),
         'end_date': (today + timezone.timedelta(days=30)).isoformat(),
     })
+
