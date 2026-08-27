@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "apps.users",
     "apps.storage",
+    "phonenumber_field",
 ]
 
 MIDDLEWARE = [
@@ -101,6 +102,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "ru-ru"
 
+PHONENUMBER_DEFAULT_REGION = "RU"
+
 TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
@@ -115,6 +118,7 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 LOGIN_URL = "account_login"
+ACCOUNT_SIGNUP_REDIRECT_URL = "users:profile"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
