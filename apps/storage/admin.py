@@ -12,6 +12,7 @@ class WarehouseAdmin(admin.ModelAdmin):
 class BoxAdmin(admin.ModelAdmin):
     list_display = ['number', 'warehouse', 'price_per_month', 'size']
     list_filter = ['is_occupied']
+    list_display_links = ['number', 'warehouse',]
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -20,3 +21,4 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'box__number')
     readonly_fields = ('total_price',)
     ordering = ('-start_date',)
+    list_display_links = ('user',)
