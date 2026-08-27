@@ -65,3 +65,7 @@ def order_create(request, box_id):
         'end_date': (today + timezone.timedelta(days=30)).isoformat(),
     })
 
+@login_required
+def profile(request):
+    orders = request.user.orders.all().order_by("-start_date")
+    return render(request, 'my-rent.html', {'orders': orders})
