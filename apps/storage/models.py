@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 
 
 class Warehouse(models.Model):
@@ -62,7 +62,55 @@ class Box(models.Model):
         super().save(*args, **kwargs)
 
 
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('active', 'Активна'),
+        ('expired', 'Истекла'),
+        ('cancelled', 'Отменена'),
+        ('completed', 'Завершена')
+    ]
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="orders",
+        verbose_name="Пользователб"
+    )
+    box = models.ForeignKey(
+        Box,
+        on_delete=models.PROTECT,
+        related_name="rentals",
+        verbose_name="Бокс"
+    )
+    price_per_month = models.DecimalField(
+        'Цена за месяц (на момент аренды)',
+        max_digits=10,
+        decimal_places=2
+    )
+    total_price = models.DecimalField(
+        'Итоговая стоимость',
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
+    start_date = models.DateField('Дата начала')
+    end_date = models.DateField('Дата окончания')
+    
 
+    def save(self, *args, **kwargs):
+        if not self.total_price and self.start_date and self.end_date:
+            months = (self.end_date.year - self.start_date.year) * 12 + (self.end_date.month - self.start_date.month)
+            months = max(1, months)
+            self.total_price = self.price_per_month * months
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'Аренда #{self.id} – {self.box} ({self.user})'
+
+    class Meta:
+        verbose_name = 'Аренда'
+        verbose_name_plural = 'Аренды'
+        ordering = ['-start_date']
 
 
 
