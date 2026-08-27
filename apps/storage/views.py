@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import datetime
 from .models import Box, Order, Warehouse
-from django.db.models import Count, Q, Min, Max
+from django.db.models import Count, Q, Min, Max, Prefetch
 
 
 def boxes_view(request):
@@ -13,7 +13,9 @@ def boxes_view(request):
         free_boxes=Count('boxes', filter=Q(boxes__is_occupied=False)),
         min_price=Min('boxes__price_per_month'),
         max_height=Max('boxes__height')
-    ).prefetch_related('boxes')
+    ).prefetch_related(
+        Prefetch('boxes', queryset=Box.objects.filter(is_occupied=False))
+    )
 
     context = {
         'warehouses': warehouses,

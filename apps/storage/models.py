@@ -17,6 +17,9 @@ class Warehouse(models.Model):
     )
     price_per_square_meter = models.PositiveIntegerField('Цена за м² в месяц, ₽')
     temperature = models.IntegerField('Температура на складе')
+    contacts = models.TextField('Контакты склада', blank=True, default='')
+    description = models.TextField('Описание склада', blank=True, default='')
+    route = models.TextField('Как проехать', blank=True, default='')
     class Meta:
         verbose_name = 'Cклад'
         verbose_name_plural = 'Склады'
