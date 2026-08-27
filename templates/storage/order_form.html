@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-header">
+    <h2>Оформление аренды бокса №{{ box.number }}</h2>
+    <p>Склад: {{ box.warehouse.city }}, {{ box.warehouse.address }}</p>
+    <p>Цена за месяц: {{ box.price_per_month }} ₽</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="start_date" class="form-label">Дата начала</label>
+            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ start_date }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="end_date" class="form-label">Дата окончания</label>
+            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ end_date }}" required>
+        </div>
+        <button type="submit" class="btn SelfStorage__bg_green text-white">Подтвердить аренду</button>
+    </form>
+</div>
+{% endblock %}
