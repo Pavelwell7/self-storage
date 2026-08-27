@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 from .manager import CustomUserManager
 
@@ -23,11 +24,11 @@ class User(AbstractUser):
         "емайл",
         unique=True,
     )
-    phone = models.CharField(
-        "телефон",
-        max_length=20,
+    phone = PhoneNumberField(
+        "Номер телефона",
+        db_index=True,
         blank=True,
-        default="",
+        null=True,
     )
     avatar = models.ImageField(
         "аватар",

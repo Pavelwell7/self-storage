@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "apps.users",
     "apps.storage",
+    "phonenumber_field",
 ]
 
 MIDDLEWARE = [
@@ -100,6 +101,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 LANGUAGE_CODE = "ru-ru"
+
+PHONENUMBER_DEFAULT_REGION = "RU"
 
 TIME_ZONE = "Europe/Moscow"
 
