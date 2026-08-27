@@ -115,7 +115,7 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 LOGIN_URL = "account_login"
-LOGIN_REDIRECT_URL = "storage:boxes_list"
-LOGOUT_REDIRECT_URL = "storage:boxes_list"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # TO DO: заменить на настоящий почтовый сервис
