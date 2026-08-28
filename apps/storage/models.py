@@ -107,6 +107,14 @@ class Order(models.Model):
             self.total_price = self.price_per_month * months
         super().save(*args, **kwargs)
 
+     
+    def delete(self, *args, **kwargs):
+        box = self.box
+        super().delete(*args, **kwargs)
+        if not Order.objects.filter(box=box, status='active').exists():
+            box.is_occupied = False
+            box.save()
+
     def __str__(self):
         return f'Аренда #{self.id} – {self.box} ({self.user})'
 
