@@ -32,6 +32,9 @@ class Box(models.Model):
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE, related_name='boxes')
     number = models.CharField('Номер бокса', max_length=20)
     floor = models.PositiveSmallIntegerField('Этаж')
+    length = models.DecimalField('Длина, м', max_digits=4, decimal_places=1)
+    width = models.DecimalField('Ширина, м', max_digits=4, decimal_places=1)
+    height = models.DecimalField('Высота, м', max_digits=4, decimal_places=1)
     size = models.DecimalField(
         'Площадь, м²',
         max_digits=5,
@@ -39,9 +42,6 @@ class Box(models.Model):
         blank=True,
         null=True
     )
-    length = models.DecimalField('Длина, м', max_digits=4, decimal_places=1)
-    width = models.DecimalField('Ширина, м', max_digits=4, decimal_places=1)
-    height = models.DecimalField('Высота, м', max_digits=4, decimal_places=1)
     price_per_month = models.DecimalField(
         'Цена в месяц, ₽',
         max_digits=8,
