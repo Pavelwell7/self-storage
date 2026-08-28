@@ -30,82 +30,79 @@
 									{{ user.first_name|default:user.username|slice:":1"|upper }}
 								</div>
 							{% endif %}
-
-								<h4>{{ user.first_name }} {{ user.last_name }}</h4>
-							</div>
-							<div class="col-12 col-sm-7 d-flex flex-column">
-								<form method="post" enctype="multipart/form-data" action="{% url 'users:profile' %}">
-	    							{% csrf_token %}
-									<label class="fs_24 SelfStorage_green ms-2" for="EMAIL">E-mail</label>
-									{{ form.email }}
-	    							{{ form.email.errors }}
-									<label class="fs_24 SelfStorage_green ms-2" for="PHONE">Телефон</label>
-									{{ form.phone }}
-	    							{{ form.phone.errors }}
-									<label class="fs_24 SelfStorage_green ms-2" for="FIRST_NAME">Имя</label>
-	    							{{ form.first_name }}
-	    							<label class="fs_24 SelfStorage_green ms-2" for="LAST_NAME">Фамилия</label>
-	    							{{ form.last_name }}
-									<label class="fs_24 SelfStorage_green ms-2" for="AVATAR">Аватар</label>
-									{{ form.avatar }}
-									{{ form.avatar.errors }}
-									<input type="password" name="PASSWORD_EDIT" id="PASSWORD" class="form-control fs_24 ps-2 SelfStorage__input" value="********" disabled>
-									<button type="submit" class="btn SelfStorage_green ps-1" id="save" style="display: none">Сохранить</button>
-									<a class="btn SelfStorage_orange ps-1" id="edit">Редактировать</a>
-									<script>
-										document.getElementById('edit').addEventListener('click', e => {
-											e.preventDefault()
-											document.getElementById('EMAIL').disabled = false
-											document.getElementById('PHONE').disabled = false
-											document.getElementById('AVATAR').disabled = false
-											document.getElementById('FIRST_NAME').disabled = false
-											document.getElementById('LAST_NAME').disabled = false
-											document.getElementById('PASSWORD').disabled = false
-											document.getElementById('PASSWORD').type = 'text'
-											document.getElementById('edit').style.display = 'none'
-											document.getElementById('save').style.display = 'inline-block'
-										})
-										document.getElementById('save').addEventListener('click', () => {
-											setTimeout(() => {
-												document.getElementById('EMAIL').disabled = true
-												document.getElementById('PHONE').disabled = true
-												document.getElementById('AVATAR').disabled = true
-												document.getElementById('FIRST_NAME').disabled = true
-												document.getElementById('LAST_NAME').disabled = true
-												document.getElementById('PASSWORD').disabled = true
-												document.getElementById('PASSWORD').type = 'password'
-												document.getElementById('edit').style.display = 'inline-block'
-												document.getElementById('save').style.display = 'none'
-											}, 0)
-										})
-									</script>
-								</form>
-							</div>
+							<h4>{{ user.first_name }} {{ user.last_name }}</h4>
+						</div>	
+						<div class="col-12 col-sm-7 d-flex flex-column">
+							<form method="post" enctype="multipart/form-data" action="{% url 'users:profile' %}">
+								{% csrf_token %}
+								<label class="fs_24 SelfStorage_green ms-2" for="EMAIL">E-mail</label>
+								{{ form.email }}
+								{{ form.email.errors }}
+								<label class="fs_24 SelfStorage_green ms-2" for="PHONE">Телефон</label>
+								{{ form.phone }}
+								{{ form.phone.errors }}
+								<label class="fs_24 SelfStorage_green ms-2" for="FIRST_NAME">Имя</label>
+								{{ form.first_name }}
+								<label class="fs_24 SelfStorage_green ms-2" for="LAST_NAME">Фамилия</label>
+								{{ form.last_name }}
+								<label class="fs_24 SelfStorage_green ms-2" for="AVATAR">Аватар</label>
+								{{ form.avatar }}
+								{{ form.avatar.errors }}
+								<input type="password" name="PASSWORD_EDIT" id="PASSWORD" class="form-control fs_24 ps-2 SelfStorage__input" value="********" disabled>
+								<button type="submit" class="btn SelfStorage_green ps-1" id="save" style="display: none">Сохранить</button>
+								<a class="btn SelfStorage_orange ps-1" id="edit">Редактировать</a>
+								<script>
+									document.getElementById('edit').addEventListener('click', e => {
+										e.preventDefault()
+										document.getElementById('EMAIL').disabled = false
+										document.getElementById('PHONE').disabled = false
+										document.getElementById('AVATAR').disabled = false
+										document.getElementById('FIRST_NAME').disabled = false
+										document.getElementById('LAST_NAME').disabled = false
+										document.getElementById('PASSWORD').disabled = false
+										document.getElementById('PASSWORD').type = 'text'
+										document.getElementById('edit').style.display = 'none'
+										document.getElementById('save').style.display = 'inline-block'
+									})
+									document.getElementById('save').addEventListener('click', () => {
+										setTimeout(() => {
+											document.getElementById('EMAIL').disabled = true
+											document.getElementById('PHONE').disabled = true
+											document.getElementById('AVATAR').disabled = true
+											document.getElementById('FIRST_NAME').disabled = true
+											document.getElementById('LAST_NAME').disabled = true
+											document.getElementById('PASSWORD').disabled = true
+											document.getElementById('PASSWORD').type = 'password'
+											document.getElementById('edit').style.display = 'inline-block'
+											document.getElementById('save').style.display = 'none'
+										}, 0)
+									})
+								</script>
+							</form>
 						</div>
 					</div>
-					<div class="tab-pane fade" id="Rent" role="tabpanel" aria-labelledby="Rent-tab">
-						<h1 class="fw-bold SelfStorage_green mb-5">Добрый день, {{ user.first_name|default:user.username }}!</h1>
-						<a href="#" class="SelfStorage_orange">История аренды</a>
+				</div>	
+				<div class="tab-pane fade" id="Rent" role="tabpanel" aria-labelledby="Rent-tab">
+					<h1 class="fw-bold SelfStorage_green mb-5">Добрый день, {{ user.first_name|default:user.username }}!</h1>
+					<a href="#" class="SelfStorage_orange">История аренды</a>
 					{% if orders %}
-	                  {% for order in orders %}
-	                    {% if order.is_expiring_soon %}
-						<h4 class="SelfStorage_grey my-3">Срок Вашей аренды подходит к концу :(<br>Вы можете продлить аренду или забрать вещи до {{ order.end_date|date:"d.m.Y" }} включительно.</h4>
-						{% endif %}
-						<div class="mb-5">
-							<h4 class="SelfStorage_green">Мой склад №{{ forloop.counter }}</h4>
-							<h4>{{ order.box.warehouse.city }}, {{ order.box.warehouse.address }}</h4>
-							<h4 class="SelfStorage_green">Мой бокс</h4>
-							<h4>№{{ order.box.number }}</h4>
-							<h4 class="SelfStorage_green">Срок аренды</h4>
-							<h4>{{ order.start_date|date:"d.m.Y" }} - {{ order.end_date|date:"d.m.Y" }}</h4>
-							<a href="{% url 'storage:order_create' order.box.id%}?extend=1" class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_green SelfStorage__btn2_green mb-3">Продлить аренду</a>
-							<a href="{% url 'storage:boxes' %}" class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange mb-3">Открыть бокс</a>
-						</div>
-
-	                  {% endfor %}
-	                {% endif %}
-	                <a href="#" class="SelfStorage_orange">Нужна помощь?</a>
-					</div>
+						{% for order in orders %}
+							{% if order.is_expiring_soon %}
+								<h4 class="SelfStorage_grey my-3">Срок Вашей аренды подходит к концу :(<br>Вы можете продлить аренду или забрать вещи до {{ order.end_date|date:"d.m.Y" }} включительно.</h4>
+								{% endif %}
+								<div class="mb-5">
+									<h4 class="SelfStorage_green">Мой склад №{{ forloop.counter }}</h4>
+									<h4>{{ order.box.warehouse.city }}, {{ order.box.warehouse.address }}</h4>
+									<h4 class="SelfStorage_green">Мой бокс</h4>
+									<h4>№{{ order.box.number }}</h4>
+									<h4 class="SelfStorage_green">Срок аренды</h4>
+									<h4>{{ order.start_date|date:"d.m.Y" }} - {{ order.end_date|date:"d.m.Y" }}</h4>
+									<a href="{% url 'storage:order_create' order.box.id%}?extend=1" class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_green SelfStorage__btn2_green mb-3">Продлить аренду</a>
+									<a href="{% url 'storage:boxes' %}" class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange mb-3">Открыть бокс</a>
+								</div>
+						{% endfor %}
+					{% endif %}
+					<a href="#" class="SelfStorage_orange">Нужна помощь?</a>
 				</div>
 				{% if has_rent %}
 					<div class="tab-pane fade" id="QR" role="tabpanel" aria-labelledby="QR-tab">
@@ -117,9 +114,10 @@
 						</div>
 						<p class="text-muted small text-center">Код уникален и привязан к вашему аккаунту. Не передавайте его третьим лицам.</p>
 					</div>
-				{% endif %}					
-			</div>
-		</div>
-	</main>
+				{% endif %}	
+			</div>	
+		</div>	
+	</div>
+</main>
 
-	{% endblock %}
+{% endblock %}
