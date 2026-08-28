@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.utils import timezone
 
 from .forms import UserProfileForm
 
@@ -12,6 +13,9 @@ def profile_view(request):
     orders = request.user.orders.select_related("box__warehouse").order_by(
         "-start_date"
     )
+    for order in orders:
+        days_left = (order.end_date - timezone.now().date()).days
+        order.is_expiring_soon = days_left <= 14
 
     has_rent = orders.exists()
 
