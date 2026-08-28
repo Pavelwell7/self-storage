@@ -27,4 +27,13 @@ def profile_view(request):
             field.widget.attrs["disabled"] = "disabled"
 
     template = "my-rent.html" if has_rent else "my-rent-empty.html"
-    return render(request, template, {"form": form, "user": user, "orders": orders})
+    return render(
+        request,
+        template,
+        {
+            "form": form,
+            "user": user,
+            "orders": orders,
+            "has_rent": has_rent,
+        },
+    )
