@@ -11,7 +11,7 @@
 			<form class="">
 				<input type="text" required name="EMAIL1" class="form-control  border-8 mb-4 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey" placeholder="Укажите ваш e-mail">
 				<button class="btn  border-8 py-3 px-5 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">Рассчитать стоимость</button>
-				<span class="text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="#" class="link-dark">согласие на обработку персональных данных</a></span>
+				<span class="text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="{% static 'docs/consent.pdf' %}" class="link-dark">согласие на обработку персональных данных</a></span>
 			</form>
 		</div>
 		<div class="col-12 col-lg-6 SelfStorage__img"></div>
@@ -73,13 +73,13 @@
 				<h1 class="text-center mb-4 fw-bold">{{ warehouse.city }}, {{ warehouse.address }}</h1>
 				<div class="row d-flex flex-column mb-5">
 					<div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-between align-self-center">
-						<a type="button" class="SelfStorage_orange" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" title="Контакты" data-bs-content="Список контактов">
+						<a type="button" class="SelfStorage_orange" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" title="Контакты" data-bs-content="{{ warehouse.contacts|default:'Контакты временно не указаны' }}">
 							Контакты
 						</a>
-						<a type="button" class="SelfStorage_orange" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" title="Описание" data-bs-content="Текст описания">
+						<a type="button" class="SelfStorage_orange" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" title="Описание" data-bs-content="{{ warehouse.description|default:'Описание отсутствует' }}">
 							Описание
 						</a>
-						<a type="button" class="SelfStorage_orange" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" title="Проезд" data-bs-content="Описание проезда">
+						<a type="button" class="SelfStorage_orange" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" title="Проезд" data-bs-content="{{ warehouse.route|default:'Схема проезда не указана' }}">
 							Проезд
 						</a>
 					</div>
@@ -174,7 +174,7 @@
 							</div>
 							<div class="col-12 col-lg-3">
 								<span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">
-									{% if box.is_occupied %}Занят{% else %}От {{ box.price_per_month }} ₽{% endif %}
+									От {{ box.price_per_month }} ₽
 								</span>
 							</div>
 						</a>
@@ -198,7 +198,7 @@
 							</div>
 							<div class="col-12 col-lg-3">
 								<span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">
-									{% if box.is_occupied %}Занят{% else %}От {{ box.price_per_month }} ₽{% endif %}
+									От {{ box.price_per_month }} ₽
 								</span>
 							</div>
 						</a>
@@ -221,7 +221,7 @@
 							</div>
 							<div class="col-12 col-lg-3">
 								<span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">
-									{% if box.is_occupied %}Занят{% else %}От {{ box.price_per_month }} ₽{% endif %}
+									От {{ box.price_per_month }} ₽
 								</span>
 							</div>
 						</a>
@@ -244,7 +244,7 @@
 							</div>
 							<div class="col-12 col-lg-3">
 								<span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">
-									{% if box.is_occupied %}Занят{% else %}От {{ box.price_per_month }} ₽{% endif %}
+									От {{ box.price_per_month }} ₽
 								</span>
 							</div>
 						</a>

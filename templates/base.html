@@ -6,6 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{% static 'css/Style.css' %}" rel="stylesheet">
     <title>{% block title %}SelfStorage{% endblock %}</title>
+    <link rel="icon" href="{% static 'img/Vector.svg' %}" type="image/x-icon">
 </head>
 <body>
 
@@ -21,7 +22,7 @@
 		<div class="collapse navbar-collapse justify-content-end" id="navbar">
 			<ul class="navbar-nav">
 				<li class="nav-item me-5">
-					<a class="nav-link SelfStorage_black" href="{% url 'storage:faq' %}">Рассчитать стоимость</a>
+					<a class="nav-link SelfStorage_black" href="{% url 'storage:index' %}">Рассчитать стоимость</a>
 				</li>
 				<li class="nav-item me-5">
 					<a class="nav-link SelfStorage_black" href="{% url 'storage:faq' %}">Правила хранения</a>
@@ -170,5 +171,15 @@
 </aside>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+		var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+			return new bootstrap.Popover(popoverTriggerEl)
+		})
+	});
+</script>
+
 </body>
 </html>
