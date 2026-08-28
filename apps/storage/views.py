@@ -33,9 +33,51 @@ def faq_view(request):
     return render(request, "faq.html")
 
 
+def extend_order(request, box):
+    order = Order.objects.filter(box=box, user=request.user, status='active').first()
+    if not order:
+        messages.error(request, "Активная аренда для этого бокса не айдена")
+        return redirect("users:profile")
+    if not box.is_occupied:
+        messages.error(request, 'Бокс не занят')
+        return redirect('users:profile')
+    if request.method == "POST":
+        new_end_str = request.POST.get('end_date')
+        try:
+            new_end_date = datetime.strptime(new_end_str, "%Y-%m-%d").date()
+            if new_end_date <= order.end_date:
+                raise ValueError
+        except:
+            messages.error(request, "Дата продления не может быть меньше или равна текущей даты, попробуйте снова")
+            return render(
+                request, 
+                "storage/order_form.html",
+                {
+                    "box": box,
+                    "start_date": order.end_date.isoformat(),
+                    "end_date": new_end_str,
+                    "extend": True,
+                })
+        order.end_date = new_end_date
+        order.save()
+        messages.success(request, f"Аренда успешно продлена до {new_end_str}")
+        return redirect("users:profile")
+    return render(
+        request,
+        'storage/order_form.html',
+        {
+            "box": box,
+            "start_date": order.end_date.isoformat(),
+            "end_date": (order.end_date + timezone.timedelta(days=30)).isoformat(),
+            "extend": True,
+        })
+
 @login_required
 def order_create(request, box_id):
     box = get_object_or_404(Box, id=box_id)
+    is_extend = request.GET.get('extend')
+    if is_extend:
+        return extend_order(request, box)
     if box.is_occupied:
         messages.error(request, "Бокс занят")
         return redirect("storage:index")
@@ -71,5 +113,8 @@ def order_create(request, box_id):
             "box": box,
             "start_date": today.isoformat(),
             "end_date": (today + timezone.timedelta(days=30)).isoformat(),
+            "extend": False,
         },
     )
+
+
