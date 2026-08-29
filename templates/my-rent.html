@@ -1,8 +1,8 @@
-	{% extends 'base.html' %}
-	{% load static %}
+{% extends 'base.html' %}
+{% load static %}
 
 
-	{% block content %}
+{% block content %}
 
 <main class="container mt-header">
 	<div class="row" role="tablist">
@@ -45,10 +45,14 @@
 								{{ form.first_name }}
 								<label class="fs_24 SelfStorage_green ms-2" for="LAST_NAME">Фамилия</label>
 								{{ form.last_name }}
-								<label class="fs_24 SelfStorage_green ms-2" for="AVATAR">Аватар</label>
-								{{ form.avatar }}
-								{{ form.avatar.errors }}
-								<input type="password" name="PASSWORD_EDIT" id="PASSWORD" class="form-control fs_24 ps-2 SelfStorage__input" value="********" disabled>
+								<div id="avatar-upload-container" style="display: none;">
+									<label class="fs_24 SelfStorage_green ms-2" for="avatar">Аватар</label>
+									{{ form.avatar }}
+									{{ form.avatar.errors }}
+								</div>
+								<div id="avatar-upload-container" style="display: none;">
+									<input type="password" name="PASSWORD_EDIT" id="PASSWORD" class="form-control fs_24 ps-2 SelfStorage__input" value="********" disabled>
+								</div>
 								<button type="submit" class="btn SelfStorage_green ps-1" id="save" style="display: none">Сохранить</button>
 								<a class="btn SelfStorage_orange ps-1" id="edit">Редактировать</a>
 								<script>
@@ -56,25 +60,25 @@
 										e.preventDefault()
 										document.getElementById('EMAIL').disabled = false
 										document.getElementById('PHONE').disabled = false
-										document.getElementById('AVATAR').disabled = false
 										document.getElementById('FIRST_NAME').disabled = false
 										document.getElementById('LAST_NAME').disabled = false
 										document.getElementById('PASSWORD').disabled = false
 										document.getElementById('PASSWORD').type = 'text'
 										document.getElementById('edit').style.display = 'none'
 										document.getElementById('save').style.display = 'inline-block'
+										document.getElementById('avatar-upload-container').style.display = 'block'
 									})
 									document.getElementById('save').addEventListener('click', () => {
 										setTimeout(() => {
 											document.getElementById('EMAIL').disabled = true
 											document.getElementById('PHONE').disabled = true
-											document.getElementById('AVATAR').disabled = true
 											document.getElementById('FIRST_NAME').disabled = true
 											document.getElementById('LAST_NAME').disabled = true
 											document.getElementById('PASSWORD').disabled = true
 											document.getElementById('PASSWORD').type = 'password'
 											document.getElementById('edit').style.display = 'inline-block'
 											document.getElementById('save').style.display = 'none'
+											document.getElementById('avatar-upload-container').style.display = 'none'
 										}, 0)
 									})
 								</script>
