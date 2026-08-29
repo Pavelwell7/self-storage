@@ -34,13 +34,20 @@ def faq_view(request):
 
 
 def extend_order(request, box):
-    order = Order.objects.filter(box=box, user=request.user, status='active').first()
+    order = Order.objects.filter(box=box, user=request.user).filter(
+        Q(status='active') | Q(status='expired')
+    ).first()
     if not order:
         messages.error(request, "Активная аренда для этого бокса не айдена")
         return redirect("users:profile")
-    if not box.is_occupied:
-        messages.error(request, 'Бокс не занят')
-        return redirect('users:profile')
+    if order.status == 'expired':
+        order.status = 'active'
+        box.is_occupied = True
+        box.save()
+    else:
+        if not box.is_occupied:
+            box.is_occupied = True
+            box.save()
     if request.method == "POST":
         new_end_str = request.POST.get('end_date')
         try:

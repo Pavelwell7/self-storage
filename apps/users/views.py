@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.db.models import Case, When, Value, IntegerField
 
 from .forms import UserProfileForm
 from .models import Feedback
@@ -11,7 +12,14 @@ from .models import Feedback
 def profile_view(request):
 
     user = request.user
-    orders = request.user.orders.select_related("box__warehouse").order_by(
+    orders = request.user.orders.select_related("box__warehouse").annotate(
+        priority=Case(
+            When(status='active', then=Value(0)),
+            default=Value(1),
+            output_field=IntegerField()
+        )
+    ).order_by(
+        "priority",
         "-start_date"
     )
     for order in orders:

@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from django.utils import timezone
 
 class Warehouse(models.Model):
     city = models.CharField('Город', max_length=100)
@@ -93,22 +93,6 @@ class Order(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
     start_date = models.DateField('Дата начала')
     end_date = models.DateField('Дата окончания')
-    
-
-    def save(self, *args, **kwargs):
-        if not self.total_price and self.start_date and self.end_date:
-            months = (self.end_date.year - self.start_date.year) * 12 + (self.end_date.month - self.start_date.month)
-            months = max(1, months)
-            self.total_price = self.price_per_month * months
-        super().save(*args, **kwargs)
-
-     
-    def delete(self, *args, **kwargs):
-        box = self.box
-        super().delete(*args, **kwargs)
-        if not Order.objects.filter(box=box, status='active').exists():
-            box.is_occupied = False
-            box.save()
 
     def __str__(self):
         return f'Аренда #{self.id} – {self.box} ({self.user})'
