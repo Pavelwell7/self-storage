@@ -27,8 +27,9 @@ def profile_view(request):
             return redirect("users:profile")
     else:
         form = UserProfileForm(instance=user)
-        for field in form.fields.values():
-            field.widget.attrs["disabled"] = "disabled"
+        for field_name, field in form.fields.items():
+            if field_name != "avatar":
+                field.widget.attrs["disabled"] = "disabled"
 
     template = "my-rent.html" if has_rent else "my-rent-empty.html"
     return render(
