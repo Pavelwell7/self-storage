@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "apps.storage",
     "phonenumber_field",
     "qr_code",
+    "promo",
 ]
 
 MIDDLEWARE = [
