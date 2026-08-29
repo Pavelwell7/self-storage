@@ -7,15 +7,17 @@ from .services import update_box_size_and_price
 
 @admin.register(Warehouse)
 class WarehouseAdmin(admin.ModelAdmin):
-    list_display = ['city', 'address',]
-    search_fields = ['city', 'address',]
+    list_display = ('city', 'address', 'price_per_square_meter', 'temperature',)
+    search_fields = ('city', 'address',)
+    list_filter = ('city',)
+    list_editable = ('price_per_square_meter', 'temperature',)
 
 @admin.register(Box)
 class BoxAdmin(admin.ModelAdmin):
-    list_display = ['number', 'warehouse', 'price_per_month', 'size',]
-    list_filter = ['is_occupied',]
-    search_fields = ['number', 'warehouse', 'price_per_month',]
-    list_display_links = ['number', 'warehouse',]
+    list_display = ('number', 'warehouse', 'price_per_month', 'size',)
+    list_filter = ('is_occupied',)
+    search_fields = ('number', 'warehouse', 'price_per_month',)
+    list_display_links = ('number', 'warehouse',)
     readonly_fields = ('price_per_month', 'size')
 
     def save_model(self, request, obj, form, change):
@@ -35,11 +37,9 @@ class OrderAdmin(admin.ModelAdmin):
         phone = obj.user.phone
         if phone:
             try:
-                # Пытаемся использовать as_national, если это объект PhoneNumber
                 if hasattr(phone, 'as_national'):
                     return str(phone.as_national())
                 else:
-                    # Если это просто строка, возвращаем как есть
                     return str(phone)
             except Exception:
                 return str(phone)
