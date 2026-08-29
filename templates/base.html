@@ -28,7 +28,7 @@
 					<a class="nav-link SelfStorage_black" href="{% url 'storage:faq' %}">Правила хранения</a>
 				</li>
 				<li class="nav-item me-5">
-					<a class="nav-link SelfStorage_black" href="{% url 'storage:boxes' %}">Арендовать бокс</a>
+					<a class="nav-link SelfStorage_black" href="{% url 'storage:boxes' %}#BOX">Арендовать бокс</a>
 				</li>
 				<li class="nav-item me-5">
 					{% if user.is_authenticated %}
@@ -94,11 +94,11 @@
 		<div class="col-6 col-md-4 d-flex flex-column">
 			<p><a href="#" class="link-dark text-decoration-none">Тарифы</a></p>
 			<p><a href="#" class="link-dark text-decoration-none">Связаться со мной</a></p>
-			<p><a href="{% url 'storage:boxes' %}" class="link-dark text-decoration-none">Арендовать бокс</a></p>
+			<p><a href="{% url 'storage:boxes' %}#BOX" class="link-dark text-decoration-none">Арендовать бокс</a></p>
 		</div>
 		<div class="col-6 col-md-4 d-flex flex-column">
 			<p><a href="{% url 'storage:faq' %}" class="link-dark text-decoration-none">Правила хранения</a></p>
-			<p><a href="{% url 'storage:boxes' %}" class="link-dark text-decoration-none">Адреса складов</a></p>
+			<p><a href="{% url 'storage:boxes' %}#BOX" class="link-dark text-decoration-none">Адреса складов</a></p>
 			<p><a href="#" class="link-dark text-decoration-none">Отзывы</a></p>
 		</div>
 		<div class="col-6 col-md-4 d-flex flex-column">

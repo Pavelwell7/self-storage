@@ -102,7 +102,7 @@
 									<h4 class="SelfStorage_green">Срок аренды</h4>
 									<h4>{{ order.start_date|date:"d.m.Y" }} - {{ order.end_date|date:"d.m.Y" }}</h4>
 									<a href="{% url 'storage:order_create' order.box.id%}?extend=1" class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_green SelfStorage__btn2_green mb-3">Продлить аренду</a>
-									<a href="{% url 'storage:boxes' %}" class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange mb-3">Открыть бокс</a>
+									<a href="{% url 'storage:boxes' %}#BOX" class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange mb-3">Открыть бокс</a>
 								</div>
 						{% endfor %}
 					{% endif %}
