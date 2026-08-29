@@ -3,11 +3,10 @@ from django.utils.html import format_html
 
 from self_storage import settings
 
-from . import models
 from .models import PromoLink
 
 
-@admin.register(models.PromoLink)
+@admin.register(PromoLink)
 class PromoAdmin(admin.ModelAdmin):
     list_display = (
         "promo_link",
