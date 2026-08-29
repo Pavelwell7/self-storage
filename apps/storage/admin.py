@@ -18,9 +18,16 @@ class BoxAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'box', 'start_date', 'end_date', 'status', 'total_price')
+    list_display = ('id', 'user', 'user_phone','box', 'start_date', 'end_date', 'status', 'total_price')
     list_filter = ('status', 'box__warehouse')
     search_fields = ('user__username', 'box__number')
     readonly_fields = ('total_price',)
     ordering = ('-start_date',)
     list_display_links = ('user',)
+
+    def user_phone(self, obj):
+        if obj.user.phone:
+            return obj.user.phone.as_national()
+        return "-"
+    user_phone.short_description = "Телефон"
+
