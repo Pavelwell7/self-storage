@@ -32,16 +32,8 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('total_price',)
     ordering = ('-start_date',)
     list_display_links = ('user',)
+    list_select_related = ('box', 'box__warehouse', 'user')
 
     def user_phone(self, obj):
-        phone = obj.user.phone
-        if phone:
-            try:
-                if hasattr(phone, 'as_national'):
-                    return str(phone.as_national())
-                else:
-                    return str(phone)
-            except Exception:
-                return str(phone)
-        return "-"
+        return str(obj.user.phone) if obj.user.phone else "—"
     user_phone.short_description = "Телефон"

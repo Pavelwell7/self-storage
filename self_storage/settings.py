@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "apps.promo",
     "phonenumber_field",
     "qr_code",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -42,6 +43,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'debug_toolbar.middleware.DebugToolbarMiddleware', 
 ]
 
 ROOT_URLCONF = "self_storage.urls"
@@ -112,6 +114,10 @@ USE_I18N = True
 
 USE_TZ = True
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+    'localhost',
+]
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
