@@ -8,6 +8,7 @@ urlpatterns = [
     path("", include("apps.storage.urls", namespace="storage")),
     path("accounts/", include("allauth.urls")),
     path("users/", include("apps.users.urls")),
+    path("", include("apps.promo.urls")),
 ]
 
 
