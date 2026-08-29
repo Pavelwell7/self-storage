@@ -58,3 +58,18 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class Feedback(models.Model):
+    email = models.EmailField("Email", blank=True, null=True)
+    created_at = models.DateTimeField("Дата заявки", auto_now_add=True)
+    phone = PhoneNumberField("Номер телефона", blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Заявка на обратную связь"
+        verbose_name_plural = "Заявки на обратную связь"
+
+    def __str__(self):
+        if self.phone:
+            return f"{self.phone} {self.created_at}"
+        return f"{self.email}  {self.created_at}"

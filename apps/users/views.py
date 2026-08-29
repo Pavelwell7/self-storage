@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 
 from .forms import UserProfileForm
+from .models import Feedback
 
 
 @login_required
@@ -41,3 +42,14 @@ def profile_view(request):
             "has_rent": has_rent,
         },
     )
+
+def feedback_view(request):
+
+    if request.method == "POST":
+        email = request.POST.get("email")
+        if email:
+            Feedback.objects.get_or_create(email=email)
+        phone = request.POST.get("phone")
+        if phone:
+            Feedback.objects.get_or_create(phone=phone)
+    return redirect("storage:index")
