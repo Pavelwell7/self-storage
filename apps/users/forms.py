@@ -4,29 +4,32 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ["email", "first_name", "last_name", "phone", "avatar"]
-        widgets = {
-            "email": forms.EmailInput(attrs={"id": "EMAIL", "name": "EMAIL_EDIT"}),
-            "phone": forms.TextInput(attrs={"id": "PHONE", "name": "PHONE_EDIT"}),
-            "first_name": forms.TextInput(
-                attrs={"id": "FIRST_NAME", "name": "FIRST_NAME_EDIT"}
-            ),
-            "last_name": forms.TextInput(
-                attrs={"id": "LAST_NAME", "name": "LAST_NAME_EDIT"}
-            ),
-            "avatar": forms.ClearableFileInput(
-                attrs={"id": "AVATAR", "name": "AVATAR_EDIT"}
-            ),
-        }
-
+class BootstrapFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            base_class = "form-control fs_24 ps-2 SelfStorage__input"
+            upper_name = field_name.upper()
+            field.widget.attrs["id"] = upper_name
+
+            if not isinstance(field.widget, forms.FileInput):
+                field.widget.attrs["name"] = f"{upper_name}_EDIT"
+
             if field_name == "avatar":
-                base_class = "form-control"
-            field.widget.attrs["class"] = base_class
-            field.widget.attrs["placeholder"] = field.label
+                field.widget.attrs.update(
+                    {"class": "form-control", "accept": "image/*"}
+                )
+            elif isinstance(field.widget, forms.FileInput):
+                field.widget.attrs["class"] = "form-control"
+            else:
+                field.widget.attrs["class"] = (
+                    "form-control fs_24 ps-2 SelfStorage__input"
+                )
+
+            if field.label and "placeholder" not in field.widget.attrs:
+                field.widget.attrs["placeholder"] = field.label
+
+
+class UserProfileForm(BootstrapFormMixin, forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["email", "first_name", "last_name", "phone", "avatar"]

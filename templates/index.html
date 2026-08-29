@@ -9,9 +9,10 @@
 		<div class="col-12 col-lg-6 mb-3 mb-lg-0">
 			<h1 class="fw-bold SelfStorage_green mb-5">Доставка и бережное хранение ваших вещей</h1>
 			<h4 class="fw-lighter SelfStorage_grey mb-5">Аренда бокса на любой срок Бесплатная доставка от вашего дома </h4>
-			<form class="">
-				<input type="text" required name="EMAIL1" class="form-control border-8 mb-4 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey" placeholder="Укажите ваш e-mail">
-				<button class="btn border-8 py-3 px-5 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">Рассчитать стоимость</button>
+			<form  method="post" action="{% url 'users:feedback' %}">
+				<input type="email" required name="email" class="form-control border-8 mb-4 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey" placeholder="Укажите ваш e-mail">
+                {% csrf_token %}
+				<button class="btn border-8 py-3 px-5 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">Связаться со мной</button>
 				<span class="text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="{% static 'docs/consent.pdf' %}" class="link-dark">согласие на обработку персональных данных</a></span>
 			</form>
 		</div>
@@ -80,9 +81,18 @@
 	<article class="row pt-header">
 		<h1 class="text-center fw-bold SelfStorage_green mb-4">Узнайте, как работает SelfStorage всего за минуту</h1>
 		<div class="d-flex justify-content-center">
-			<iframe class="w-100" height="700" src="https://www.youtube.com/embed/NsSC4pQ6HJE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		</div>
-	</article>
+			<iframe
+                class="w-100"
+                height="700"
+                src="https://www.youtube.com/embed/NsSC4pQ6HJE"
+                title="YouTube video player"
+                frameborder="0"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>>
+    </article>>
 
 	<article class="text-center row pt-header">
 		<h1 class="fw-bold SelfStorage_green mb-4">Удобная и доступная аренда боксов</h1>
@@ -138,8 +148,8 @@
 				</div>
 				<a href="#" class="text-center text-lg-start mt-4 mb-5 SelfStorage_green">Подробнее о складе</a>
 				<div class="d-flex flex-column align-items-center align-items-lg-start">
-                    <a href="{% url 'storage:boxes' %}" class="btn w-75 fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_green SelfStorage__btn2_green mb-3">Арендовать бокс</a>
-					<a href="{% url 'storage:boxes' %}" class="btn w-75 fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange">Выбрать склад</a>
+                    <a href="{% url 'storage:boxes' %}#BOX" class="btn w-75 fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_green SelfStorage__btn2_green mb-3">Арендовать бокс</a>
+					<a href="{% url 'storage:boxes' %}#BOX" class="btn w-75 fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange">Выбрать склад</a>
 				</div>
 			</div>
 		</div>
@@ -206,12 +216,13 @@
 		<div class="d-flex flex-column align-items-center">
 			<h1 class="text-white text-center fw-bold mb-4">Арендуйте свой первый бокс прямо сейчас и получите скидку 15% до конца апреля</h1>
 			<h4 class="text-white text-center fw-light">Акция распространяется только на новых пользователей сервиса SelfStorage</h4>
-			<form class="row my-4">
+			<form method="post" action="{% url 'users:feedback' %}" class="row my-4">
 				<div class="col-12 col-lg-6">
-					<input type="text" required name="EMAIL2" class="form-control border-8 mb-4 me-3 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey" placeholder="Укажите ваш e-mail">
+					<input type="email" required name="email" class="form-control border-8 mb-4 me-3 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey" placeholder="Укажите ваш e-mail">
 				</div>
 				<div class="col-12 col-lg-6">
-					<button class="btn w-100 border-8 py-3 px-5 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">Рассчитать стоимость</button>
+                    {% csrf_token %}
+					<button class="btn w-100 border-8 py-3 px-5 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">Связаться со мной</button>
 				</div>
 			</form>
 			<span class="text-white text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="{% static 'docs/consent.pdf' %}" class="text-white">согласие на обработку персональных данных</a></span>

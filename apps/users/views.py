@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.db.models import Case, When, Value, IntegerField
 
 from .forms import UserProfileForm
+from .models import Feedback
 
 
 @login_required
@@ -35,8 +36,9 @@ def profile_view(request):
             return redirect("users:profile")
     else:
         form = UserProfileForm(instance=user)
-        for field in form.fields.values():
-            field.widget.attrs["disabled"] = "disabled"
+        for field_name, field in form.fields.items():
+            if field_name != "avatar":
+                field.widget.attrs["disabled"] = "disabled"
 
     template = "my-rent.html" if has_rent else "my-rent-empty.html"
     return render(
@@ -49,3 +51,14 @@ def profile_view(request):
             "has_rent": has_rent,
         },
     )
+
+def feedback_view(request):
+
+    if request.method == "POST":
+        email = request.POST.get("email")
+        if email:
+            Feedback.objects.get_or_create(email=email)
+        phone = request.POST.get("phone")
+        if phone:
+            Feedback.objects.get_or_create(phone=phone)
+    return redirect("storage:index")

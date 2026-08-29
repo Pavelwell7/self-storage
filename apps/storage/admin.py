@@ -2,19 +2,25 @@ from django.contrib import admin
 
 from .models import Warehouse
 from .models import Box, Order
+from .services import update_box_size_and_price
+
 
 @admin.register(Warehouse)
 class WarehouseAdmin(admin.ModelAdmin):
-    list_display = ['city', 'address']
-    search_fields = ['city', 'address']
+    list_display = ['city', 'address',]
+    search_fields = ['city', 'address',]
 
 @admin.register(Box)
 class BoxAdmin(admin.ModelAdmin):
-    list_display = ['number', 'warehouse', 'price_per_month', 'size']
-    list_filter = ['is_occupied']
-    search_fields = ['number', 'warehouse', 'price_per_month']
+    list_display = ['number', 'warehouse', 'price_per_month', 'size',]
+    list_filter = ['is_occupied',]
+    search_fields = ['number', 'warehouse', 'price_per_month',]
     list_display_links = ['number', 'warehouse',]
     readonly_fields = ('price_per_month', 'size')
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        update_box_size_and_price(obj)
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):

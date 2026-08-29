@@ -43,37 +43,40 @@
     							{{ form.first_name }}
     							<label class="fs_24 SelfStorage_green ms-2" for="LAST_NAME">Фамилия</label>
     							{{ form.last_name }}
-								<label class="fs_24 SelfStorage_green ms-2" for="AVATAR">Аватар</label>
-								{{ form.avatar }}
-								{{ form.avatar.errors }}
-								<label class="fs_24 SelfStorage_green ms-2" for="PASSWORD">Пароль</label>
-								<input type="password" name="PASSWORD_EDIT" id="PASSWORD" class="form-control fs_24 ps-2 SelfStorage__input" value="********" disabled>
+								<div id="avatar-upload-container" style="display: none;">
+									<label class="fs_24 SelfStorage_green ms-2" for="avatar">Аватар</label>
+									{{ form.avatar }}
+									{{ form.avatar.errors }}
+								</div>
+								<div id="avatar-upload-container" style="display: none;">
+									<input type="password" name="PASSWORD_EDIT" id="PASSWORD" class="form-control fs_24 ps-2 SelfStorage__input" value="********" disabled>
+								</div>
 								<button type="submit" class="btn SelfStorage_green ps-1" id="save" style="display: none">Сохранить</button>
-								<a type="button" class="btn SelfStorage_orange ps-1" id="edit">Редактировать</a>
+								<a class="btn SelfStorage_orange ps-1" id="edit">Редактировать</a>
 								<script>
 									document.getElementById('edit').addEventListener('click', e => {
 										e.preventDefault()
 										document.getElementById('EMAIL').disabled = false
 										document.getElementById('PHONE').disabled = false
-										document.getElementById('AVATAR').disabled = false
 										document.getElementById('FIRST_NAME').disabled = false
 										document.getElementById('LAST_NAME').disabled = false
 										document.getElementById('PASSWORD').disabled = false
 										document.getElementById('PASSWORD').type = 'text'
 										document.getElementById('edit').style.display = 'none'
 										document.getElementById('save').style.display = 'inline-block'
+										document.getElementById('avatar-upload-container').style.display = 'block'
 									})
 									document.getElementById('save').addEventListener('click', () => {
 										setTimeout(() => {
 											document.getElementById('EMAIL').disabled = true
 											document.getElementById('PHONE').disabled = true
-											document.getElementById('AVATAR').disabled = true
 											document.getElementById('FIRST_NAME').disabled = true
 											document.getElementById('LAST_NAME').disabled = true
 											document.getElementById('PASSWORD').disabled = true
 											document.getElementById('PASSWORD').type = 'password'
 											document.getElementById('edit').style.display = 'inline-block'
 											document.getElementById('save').style.display = 'none'
+											document.getElementById('avatar-upload-container').style.display = 'none'
 										}, 0)
 									})
 								</script>
@@ -84,7 +87,7 @@
 				<div class="tab-pane fade" id="Rent" role="tabpanel" aria-labelledby="Rent-tab">
 					<h1 class="fw-bold SelfStorage_green">Добрый день, {{ user.first_name }}!</h1>
 					<h4 class="SelfStorage_grey my-5">У вас еще нет аренды :(<br>Но вы можете арендовать свой первый бокс  по  привлекательной цене прямо сейчас</h4>
-					<div><a href="{% url 'storage:boxes' %}" class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange mb-3">Арендовать бокс</a></div>
+					<div><a href="{% url 'storage:boxes' %}#BOX" class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange mb-3">Арендовать бокс</a></div>
 					<a href="#" class="SelfStorage_orange">Нужна помощь?</a>
 				</div>
 			</div>
