@@ -28,9 +28,9 @@ INSTALLED_APPS = [
     "allauth.account",
     "apps.users",
     "apps.storage",
+    "apps.promo",
     "phonenumber_field",
     "qr_code",
-    "promo",
 ]
 
 MIDDLEWARE = [
@@ -74,7 +74,7 @@ DATABASES = {
 AUTH_USER_MODEL = "users.User"
 
 SITE_ID = 1
-
+SITE_URL = env.str("SITE_URL", default="http://127.0.0.1:8000")
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
