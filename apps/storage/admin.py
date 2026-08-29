@@ -32,8 +32,16 @@ class OrderAdmin(admin.ModelAdmin):
     list_display_links = ('user',)
 
     def user_phone(self, obj):
-        if obj.user.phone:
-            return obj.user.phone.as_national()
+        phone = obj.user.phone
+        if phone:
+            try:
+                # Пытаемся использовать as_national, если это объект PhoneNumber
+                if hasattr(phone, 'as_national'):
+                    return str(phone.as_national())
+                else:
+                    # Если это просто строка, возвращаем как есть
+                    return str(phone)
+            except Exception:
+                return str(phone)
         return "-"
     user_phone.short_description = "Телефон"
-
