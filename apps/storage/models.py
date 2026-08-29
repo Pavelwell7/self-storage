@@ -59,11 +59,6 @@ class Box(models.Model):
     def __str__(self):
         return f'{self.number} ({self.warehouse.city})'
 
-    def save(self, *args, **kwargs):
-        self.size = self.length * self.width
-        self.price_per_month = self.warehouse.price_per_square_meter * self.size
-        super().save(*args, **kwargs)
-
 
 class Order(models.Model):
     STATUS_CHOICES = [

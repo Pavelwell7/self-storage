@@ -125,7 +125,7 @@
 								<span class="SelfStorage_grey mb-3">Боксов свободно</span>
 							</div>
 							<div class="col-6 d-flex flex-column align-items-center align-items-lg-start">
-								<span class="fs_30 fw-bold SelfStorage_orange">до {{ warehouse.max_height }} м</span>
+								<span class="fs_30 fw-bold SelfStorage_orange">до {{ warehouse.max_height|floatformat:1 }} м</span>
 								<span class="SelfStorage_grey mb-3">Высота потолка</span>
 								<span class="fs_30 fw-bold SelfStorage_orange">
                                     {% if warehouse.min_price %}
