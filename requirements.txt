@@ -4,3 +4,4 @@ Pillow==11.0.0
 django_allauth==65.19.1
 django_phonenumber_field==8.5.0
 django_qr_code==4.2.0
+dj-database-url==3.1.2
