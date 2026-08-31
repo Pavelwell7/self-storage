@@ -11,7 +11,7 @@ services:
       - POSTGRES_PASSWORD=120800
       - POSTGRES_DB=postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
   web:
     build: .
     restart: always
@@ -19,7 +19,7 @@ services:
       - .:/app
       - static_volume:/app/staticfiles
       - media_volume:/app/media
-      - bundles_volume:/app/bundles_dist
+#      - bundles_volume:/app/bundles_dist
     ports:
       - "8000:8000"
     env_file:
@@ -27,15 +27,16 @@ services:
 
     environment:
       - DB_URL=postgres://postgres:120800@db:5432/postgres
+      - DJANGO_SETTINGS_MODULE=self_storage.settings
     depends_on:
       db:
         condition: service_started
-      frontend:
-        condition: service_completed_successfully
-  frontend:
-    build: ./bundles-src
-    volumes:
-      - bundles_volume:/app/dist
+#      frontend:
+#        condition: service_completed_successfully
+#  frontend:
+#    build: ./bundles-src
+#    volumes:
+#      - bundles_volume:/app/dist
   nginx:
     image: nginx:latest
     restart: always
@@ -51,4 +52,4 @@ volumes:
   postgres_data:
   static_volume:
   media_volume:
-  bundles_volume:
+#  bundles_volume:

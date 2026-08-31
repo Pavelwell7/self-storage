@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
+{% with tab=request.GET.tab %}
 
 <main class="container mt-header">
 	<div class="row" role="tablist">
 		<div class="col-lg-3 d-flex flex-column nav nav-pills">
-			<button class="ps-0 btn bg-white fs_24 shadow-none SelfStorage_orange SelfStorage_tab active" id="LK-tab" data-bs-toggle="pill" data-bs-target="#LK" type="button" role="tab" aria-controls="LK" aria-selected="true">Личный кабинет</button>
-			<button class="ps-0 btn bg-white fs_24 shadow-none SelfStorage_grey SelfStorage_tab" id="Rent-tab" data-bs-toggle="pill" data-bs-target="#Rent" type="button" role="tab" aria-controls="Rent" aria-selected="false">Моя аренда</button>
+			<button class="ps-0 btn bg-white fs_24 shadow-none SelfStorage_orange SelfStorage_tab {% if not tab or tab == 'lk' %}SelfStorage_orange active{% else %}SelfStorage_grey{% endif %}" id="LK-tab" data-bs-toggle="pill" data-bs-target="#LK" type="button" role="tab" aria-controls="LK" aria-selected="{% if not tab or tab == 'lk' %}true{% else %}false{% endif %}">Личный кабинет</button>
+			<button class="ps-0 btn bg-white fs_24 shadow-none SelfStorage_grey SelfStorage_tab {% if tab == 'rent' %}SelfStorage_orange active{% else %}SelfStorage_grey{% endif %}" id="Rent-tab" data-bs-toggle="pill" data-bs-target="#Rent" type="button" role="tab" aria-controls="Rent" aria-selected=""{% if tab == 'rent' %}true{% else %}false{% endif %}">Моя аренда</button>
 			{% if has_rent %}
-			<button class="ps-0 btn bg-white fs_24 shadow-none SelfStorage_grey SelfStorage_tab" id="QR-tab" data-bs-toggle="pill" data-bs-target="#QR" type="button" role="tab" aria-controls="QR" aria-selected="false">QR-код</button>
+			<button class="ps-0 btn bg-white fs_24 shadow-none SelfStorage_grey SelfStorage_tab {% if tab == 'qr' %}SelfStorage_orange active{% else %}SelfStorage_grey{% endif %} " id="QR-tab" data-bs-toggle="pill" data-bs-target="#QR" type="button" role="tab" aria-controls="QR" aria-selected="{% if tab == 'qr' %}true{% else %}false{% endif %}">QR-код</button>
 			{% endif %}
 			<a href="{% url 'storage:faq' %}" class="btn fs_24 shadow-none text-decoration-none SelfStorage_grey SelfStorage_tab">FAQ</a>
 			<form action="{% url 'account_logout' %}" method="post" class="w-100" style="margin: 0; padding: 0;">
@@ -20,7 +20,7 @@
 		</div>
 		<div class="col-lg-9">
 			<div class="card tab-content p-5">
-				<div class="tab-pane fade show active" id="LK" role="tabpanel" aria-labelledby="LK-tab">
+				<div class="tab-pane fade {% if not tab or tab == 'lk' %}show active{% endif %}" id="LK" role="tabpanel" aria-labelledby="LK-tab">
 					<div class="row">
 						<div class="col-12 col-sm-5 d-flex flex-column align-items-center">
 							{% if user.avatar %}
@@ -44,6 +44,7 @@
 								<label class="fs_24 SelfStorage_green ms-2" for="FIRST_NAME">Имя</label>
 								{{ form.first_name }}
 								<label class="fs_24 SelfStorage_green ms-2" for="LAST_NAME">Фамилия</label>
+
 								{{ form.last_name }}
 								<div id="avatar-upload-container" style="display: none;">
 									<label class="fs_24 SelfStorage_green ms-2" for="avatar">Аватар</label>
@@ -86,7 +87,7 @@
 						</div>
 					</div>
 				</div>	
-				<div class="tab-pane fade" id="Rent" role="tabpanel" aria-labelledby="Rent-tab">
+				<div class="tab-pane fade {% if tab == 'rent' %}show active{% endif %}" id="Rent" role="tabpanel" aria-labelledby="Rent-tab">
 					<h1 class="fw-bold SelfStorage_green mb-5">Добрый день, {{ user.first_name|default:user.username }}!</h1>
 					<a href="#" class="SelfStorage_orange">История аренды</a>
 					{% if orders %}
@@ -112,14 +113,14 @@
 									{% else %}
 									  <span class="text-muted fs_24">Продление не доступно</span>
 									{% endif %}
-									<a href="{% url 'storage:boxes' %}#BOX" class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange mb-3">Открыть бокс</a>
+									<a href="{% url 'users:profile' %}?tab=qr" class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange mb-3">Открыть бокс</a>
 								</div>
 						{% endfor %}
 					{% endif %}
 					<a href="#" class="SelfStorage_orange">Нужна помощь?</a>
 				</div>
 				{% if has_rent %}
-					<div class="tab-pane fade" id="QR" role="tabpanel" aria-labelledby="QR-tab">
+					<div class="tab-pane fade {% if tab == 'qr' %}show active{% endif %}" id="QR" role="tabpanel" aria-labelledby="QR-tab">
 						<h1 class="fw-bold SelfStorage_green mb-4 text-center">Ваш QR-код доступа</h1>
 						<p class="SelfStorage_grey text-center">Покажите этот QR-код на складе для идентификации.</p>
 						<div class="text-center my-4">
@@ -133,5 +134,5 @@
 		</div>	
 	</div>
 </main>
-
+{% endwith %}
 {% endblock %}
