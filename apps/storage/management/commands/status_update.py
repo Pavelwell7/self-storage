@@ -4,7 +4,7 @@ from apps.storage.models import Order
 
 
 class Command(BaseCommand):
-    help = "Обновляет просроченные закказы"
+    help = "Обновляет просроченные заказы"
 
     def handle(self, *args, **kwargs):
         today = timezone.now().date()
